@@ -1755,7 +1755,6 @@ function termino_de_juego(){
     });
 }
 
-
 //Puerta 3
 
 function habitacion3(){
@@ -2027,6 +2026,8 @@ function tienda(){
             </div>
         </div>
     </section>
+
+    <p>(Revisa el maletín de la barra de navegación para continuar)</p>
     `
     document.body.appendChild(tiendita);
 
@@ -2186,7 +2187,6 @@ function buscar_proyectos() {
         }
     }
 }
-
 
 //FINALL
 

@@ -1,6 +1,7 @@
 //Variables
 
 let main;
+let temperatura;
 let botoncito;
 let botoncito1;
 let botoncito2;
@@ -22,17 +23,14 @@ let adivinanza = "";
 let respuesta_a1texto;
 let respuesta_a2texto;
 
-
 let personaje_principal = "";
 let nombre_jugador = "";
 let apellido_jugador = "";
 let anio_nac = "";
 let credencial = "";
 
-
 let manual = document.createElement("img");
 manual.src = 'imagenes/manual.png';
-
 
 let explotar = 0;
 let correcto_bomba = 0;
@@ -88,7 +86,6 @@ let bomba_terminada = 0;
 let entrada_hab2 = false;
 let entrada_hab3 = false;
 
-
 //Autito
 let canvas;
 let ctx;
@@ -102,7 +99,6 @@ let autitoh = 30;
 
 let moverx = 0;
 let movery = 0;
-
 
 //meta
 let metax;
@@ -139,7 +135,6 @@ let tiendita ;
 //Objetos
 
 class Persona{
-
     constructor(nombre, apellido, anio){
         this.nombre = nombre;
         this.apellido = apellido;
@@ -148,7 +143,6 @@ class Persona{
 }
 
 class Letras{
-
     constructor(numero, letra){
         this.numero = numero;
         this.letra = letra;
@@ -164,7 +158,6 @@ let seis = new Letras(5, "F")
 let siete = new Letras(6, "G")
 let ocho = new Letras(7, "H")
 const letras = [uno, dos, tres, cuatro, cinco, seis, siete, ocho];
-
 
 
 //Introducción del juego
@@ -185,6 +178,18 @@ function iniciar(){
     botoncito.addEventListener("click", introduccion); 
 
     main.appendChild(botoncito);
+
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=London&lang=es&units=metric&appid=6d7c680541c28fd76c12b1a9cae688b9`;
+
+    fetch(url)
+    .then( response => {return response.json() })
+    .then(data => {
+        temperatura = data.main.temp;
+        console.log(temperatura)
+    })
+    .catch(error =>{
+        console.log(error)
+    })
 }
 
 function introduccion(){
@@ -196,14 +201,20 @@ function introduccion(){
     main.appendChild(introduccionTexto1);
     typingEffect(introduccionTexto1, 65);
 
+    let introduccionTextouno = document.createElement("p")
+    setTimeout(() => {;
+    introduccionTextouno.innerHTML = `Con una temperatura actual de ${temperatura}C°`
+    main.appendChild(introduccionTextouno);
+    typingEffect(introduccionTextouno, 65);
+    }, 3000)
+
     let introduccionTexto2 = document.createElement("p")
     setTimeout(() => {;
         introduccionTexto2.innerText = "Hoy en la mañana llegué a mi nuevo lugar de trabajo, en el cual debo desempeñar labores de tecnología. Este lugar es un poco extraño y confuso, y de cierta forma aterrador... ";
         main.appendChild(introduccionTexto2);
         main.style.background = "#1F1838 url('imagenes/fondo2.png') no-repeat center center";
-        //document.body.append(main)
         typingEffect(introduccionTexto2, 65);
-    }, 3000)
+    }, 6000)
 
     let introduccionTexto3 = document.createElement("p")
     setTimeout(() => {;
@@ -211,16 +222,17 @@ function introduccion(){
         main.appendChild(introduccionTexto3);
         main.style.background = "#1F1838 url('imagenes/fondo3.png') no-repeat center center";
         typingEffect(introduccionTexto3, 65);
-    }, 15000)
+    }, 18000)
     
 
     setTimeout(() => {
 
         introduccionTexto1.remove();
+        introduccionTextouno.remove();
         introduccionTexto2.remove();
         introduccionTexto3.remove();
 
-    }, 24000);
+    }, 27000);
 
     let introduccionTexto4 = document.createElement("p")
     setTimeout(() => {;
@@ -228,7 +240,7 @@ function introduccion(){
         main.appendChild(introduccionTexto4);
         main.style.background = "#1F1838 url('imagenes/fondo4.png') no-repeat center center";
         typingEffect(introduccionTexto4, 65);
-    }, 25000)
+    }, 28000)
 
     let introduccionTexto5 = document.createElement("p")
     setTimeout(() => {;
@@ -236,21 +248,21 @@ function introduccion(){
         main.appendChild(introduccionTexto5);
         main.style.background = "#1F1838 url('imagenes/fondo5.png') no-repeat center center";
         typingEffect(introduccionTexto5, 65);
-    }, 37000)
+    }, 40000)
 
     let introduccionTexto6 = document.createElement("p")
     setTimeout(() => {;
         introduccionTexto6.innerText = "Pero ya se había ido...  ";
         main.appendChild(introduccionTexto6);
         typingEffect(introduccionTexto6, 65);
-    }, 39000)
+    }, 42000)
 
     let introduccionTexto7 = document.createElement("p")
     setTimeout(() => {;
         introduccionTexto7.innerText = "Miles de preguntas abundan en tu cabeza, pero no hay tiempo que perder, debes comenzar...  ";
         main.appendChild(introduccionTexto7);
         typingEffect(introduccionTexto7, 65);
-    }, 41000)
+    }, 44000)
 
 
     setTimeout(() =>{ 
@@ -271,7 +283,7 @@ function introduccion(){
 
         })
         main.appendChild(botoncito);
-    }, 48000)
+    }, 51000)
 }
 
 //Efecto de tipear
@@ -351,7 +363,6 @@ function AR1(){
         adivinanzas.remove();
         adivinanza_r1(); 
     }
-
 }
 
 function adivinanza_r1(){
@@ -413,7 +424,6 @@ function adivinanza_r1(){
 
         enviar = document.getElementById("sar");
         enviar.addEventListener("click", respuesta_a1);
-
     }
 }
 
@@ -447,11 +457,7 @@ function respuesta_a1(){
         respuesta_a1texto.innerText = "Incorrecto ";
         main.appendChild(respuesta_a1texto);
 
-        setTimeout(() => {
-
-            respuesta_a1texto.remove();
-        
-        }, 2500);
+        setTimeout(() => {respuesta_a1texto.remove();}, 2500);
     }
 }
 
@@ -474,11 +480,7 @@ function AR2(){
         ad2.innerText = "Debes escoger un numero distinto al de la primera adivinanza ";
         main.appendChild(ad2);
 
-        setTimeout(() => {
-
-            ad2.remove();
-        
-        }, 2500); 
+        setTimeout(() => {ad2.remove(); }, 2500); 
     }
 }
 
@@ -561,10 +563,8 @@ function respuesta_a2(){
         botoncito.id = "edif_principal";
     
         botoncito.addEventListener("click", function m2(){
-
             respuesta_a2texto.remove();
             mision2();
-
         });
     
         main.appendChild(botoncito);
@@ -576,7 +576,6 @@ function respuesta_a2(){
         main.appendChild(respuesta_a2texto);
 
         setTimeout(() => {
-
             respuesta_a2texto.remove();
         }, 2500); 
     }
@@ -617,11 +616,8 @@ function mision2(){
     enviar = document.getElementById("enviar");
 
     enviar.addEventListener("click", function ct(){
-
         mision2texto.remove();
-
         creacion_tarjeta();
-        
     });
 }
 
@@ -663,11 +659,9 @@ function creacion_tarjeta(){
         botoncito.id = "hab_principal";
 
         botoncito.addEventListener("click", function hp(){
-
             credencialtexto1.remove();
             credencialtexto2.remove();
             habitacion_principal();
-        
         });
         main.appendChild(botoncito);
     }, 9000)
@@ -731,7 +725,6 @@ function habitacion_principal(){
 }
 
 
-
 //Habitación 1
 
 function habitacion1(){
@@ -757,14 +750,10 @@ function habitacion1(){
 
     botoncito.id = "mision";
 
-    botoncito.addEventListener("click", function b(){
-        
-        
+    botoncito.addEventListener("click", function b(){ 
         habitacion_t1.remove();
         habitacion_t2.remove();
         bomba();
-    
-    
     });
     
     setTimeout(() => {main.appendChild(botoncito);}, 18000);
@@ -787,7 +776,6 @@ function timer(){
         console.log(cuenta_regresiva)
 
         if (cuenta_regresiva == 0){
-
             clearInterval(timer);
             borrarbomba();
         }
@@ -804,11 +792,9 @@ function bomba(){
         <div id="bomba"></div>
 
         <div id = "herramientas">
-        
             <h3 id="correcto">${correcto_bomba}  módulos desactivados de 5</h3>
             <h3 id="textomanual">Manual (abajo)</h3>
             <h3 id="incorrecto">${explotar}  errores de 3</h3>
-        
         </div>
 
         <div id="manual"><img src='./imagenes/manual.png'></div>
@@ -839,22 +825,18 @@ function bomba(){
 
         boton = "#FF0000";
         desactivar_boton = "3";
-
     }else if (boton == 2){
 
         boton = "#0000FF";
         desactivar_boton = "4";
-
     }else if (boton == 3){
 
         boton = "#008000";
         desactivar_boton = "5";
-
     }else{
 
         boton = "#FFFF00";
         desactivar_boton = "6";
-
     }
 
     //Dibujo botón
@@ -864,11 +846,9 @@ function bomba(){
     boton_bomba.id = "boton";
 
     boton_bomba.addEventListener("click", function botondebomba(){
-
         clicks++
         console.log(clicks, "boton1");
         empezar_boton()
-
     }); 
 
     boton_bomba.style.backgroundColor = boton;
@@ -883,22 +863,18 @@ function bomba(){
 
         cables = ["#FFFF00", "#FF0000", "#0000FF", "#FFFFFF"];
         desactivar_cables = "#FF0000";
-    
     }else if (cables == 2){
 
         cables = ["#FF0000", "#FF0080", "#008000", "#FFFFFF"];
         desactivar_cables = "#008000";
-
     }else if (cables == 3){
 
         cables = ["#0000FF", "#800080", "#FF0000", "#FFFFFF"];
         desactivar_cables = "#0000FF";
-
     } else {
 
         cables = ["#FF0000", "#0000FF", "#008000", "#FF0080"];
         desactivar_cables = "#FF0080";
-
     }
 
     //Dibujo cables
@@ -1008,65 +984,42 @@ function bomba(){
         if (combinacion.includes(0)){
 
             respuesta.push(uno.letra)
-
             combinacion.sort()
-
             combinacion.shift()
-
         }else if (combinacion.includes(1)){
 
-            respuesta.push(dos.letra)
-            
+            respuesta.push(dos.letra)            
             combinacion.sort()
-
             combinacion.shift()
-
         }else if (combinacion.includes(2)){
 
             respuesta.push(tres.letra)
-            
             combinacion.sort()
-
             combinacion.shift()
-
         }else if (combinacion.includes(3)){
 
-            respuesta.push(cuatro.letra)
-            
+            respuesta.push(cuatro.letra)       
             combinacion.sort()
-
             combinacion.shift()
-
         }else if (combinacion.includes(4)){
 
-            respuesta.push(cinco.letra)
-            
+            respuesta.push(cinco.letra)      
             combinacion.sort()
-
             combinacion.shift()
-
         }else if (combinacion.includes(5)){
 
-            respuesta.push(seis.letra)
-            
+            respuesta.push(seis.letra)            
             combinacion.sort()
-
             combinacion.shift()
-
         }else if (combinacion.includes(6)){
 
-            respuesta.push(siete.letra)
-            
+            respuesta.push(siete.letra)          
             combinacion.sort()
-
             combinacion.shift()
-
         }else if (combinacion.includes(7)){
 
             respuesta.push(ocho.letra)
-            
             combinacion.sort()
-
             combinacion.shift()
         }
     }
@@ -1096,7 +1049,6 @@ function bomba(){
     enviar = document.getElementById("numyletsub");
 
     enviar.addEventListener("click", function desactivarlosnum(){
-
         desactivar_numeros = document.getElementById("numylet").value
         empezar_numeros();
     });
@@ -1109,17 +1061,14 @@ function bomba(){
 
         lineas_colores = ["#FF0000", "#00FF00", "#0000FF"];
         desactivar_lineas = "25500";
-
     } else if (lineas_colores == 1){
 
         lineas_colores = ["#0000FF", "#FF0000", "#00FF00"];
         desactivar_lineas = "00255";
-
     }else if (lineas_colores == 2){
 
         lineas_colores = ["#00FF00", "#0000FF", "#FF0000"];
         desactivar_lineas = "02550";
-
     }
 
     //Dibujo lineas
@@ -1148,7 +1097,6 @@ function bomba(){
     enviar = document.getElementById("lineassub");
 
     enviar.addEventListener("click", function desactivarlaslineas(){
-
         respuesta = document.getElementById("lineasinp").value
         empezar_lineas();
     });
@@ -1159,23 +1107,19 @@ function bomba(){
     if (combinacion_numeros == 0){
 
         combinacion_numeros = "86 44 76 55";
-        desactivar_colores = ["amarillo", "azul", "naranja", "verde"]
-        
+        desactivar_colores = ["amarillo", "azul", "naranja", "verde"]   
     }else if (combinacion_numeros == 1){
 
         combinacion_numeros = "43 86 55 66";
-        desactivar_colores = ["rojo", "amarillo", "verde", "morado"];
-        
+        desactivar_colores = ["rojo", "amarillo", "verde", "morado"];    
     }else if (combinacion_numeros == 2){
 
         combinacion_numeros = "43 44 76 66";
-        desactivar_colores = ["rojo", "azul", "naranja", "morado"];
-        
+        desactivar_colores = ["rojo", "azul", "naranja", "morado"];   
     }else if (combinacion_numeros == 3){
 
         combinacion_numeros = "44 76 55 66";
         desactivar_colores = ["azul", "naranja", "verde", "morado"];
-        
     }
 
     //Dibujo num y colores
@@ -1200,49 +1144,36 @@ function bomba(){
 
     rojo = document.getElementById("rojo");
     rojo.addEventListener("click",function dcol(){
-
-        combinacion_colores.push("rojo");
-        
+        combinacion_colores.push("rojo");   
     }); 
 
     amarillo = document.getElementById("amarillo");
     amarillo.addEventListener("click",function dcol(){
-
         combinacion_colores.push("amarillo");
-        
     }); 
 
     azul = document.getElementById("azul");
     azul.addEventListener("click",function dcol(){
-
         combinacion_colores.push("azul");
-        
     }); 
 
     naranja = document.getElementById("naranja");
     naranja.addEventListener("click",function dcol(){
-
-        combinacion_colores.push("naranja");
-        
+        combinacion_colores.push("naranja");  
     }); 
 
     verde = document.getElementById("verde");
     verde.addEventListener("click",function dcol(){
-
-        combinacion_colores.push("verde");
-        
+        combinacion_colores.push("verde");       
     }); 
 
     morado = document.getElementById("morado");
     morado.addEventListener("click",function dcol(){
-
         combinacion_colores.push("morado");
-
     }); 
 
     enviar = document.getElementById("colsub");
     enviar.addEventListener("click", function desactivarcol(){
-
         empezar_colores();
     });
     
@@ -1255,7 +1186,6 @@ function borrarbomba(){
     if(explotar >= 3 || cuenta_regresiva == 0){
 
         if(bomba_terminada == 5){
-
         }else{
             final_bomba.innerText = "Ha explotado";
             explotar = 0;
@@ -1263,12 +1193,10 @@ function borrarbomba(){
             cuenta_regresiva = 1;
 
             setTimeout(() =>{
-
                 main.remove(); 
                 main = document.createElement("main");
                 document.body.appendChild(main);
                 volver();
-            
             }, 2500);
         }
     }else if(bomba_terminada == 5){
@@ -1276,17 +1204,14 @@ function borrarbomba(){
         final_bomba.innerText = "Has desactivado la bomba con éxito";
 
         setTimeout(() =>{
-
             main.remove();
             bomba_desactivada();
-        
         }, 2500);
     }
     dibujo_bomba.appendChild(final_bomba)
 }
 
 function volver(){
-
     botoncito = document.createElement("button");
 
     botoncito.innerText = "Volver a intentar";
@@ -1296,7 +1221,6 @@ function volver(){
     botoncito.addEventListener("click", habitacion1);
     
     main.appendChild(botoncito);
-
 }
 
 function empezar_boton(){
@@ -1304,7 +1228,6 @@ function empezar_boton(){
     console.log(ronda_mala)
     
     if (clicks > desactivar_boton){
-
         ronda_mala = true;
         setTimeout(() =>{ronda_mala = false;}, 1500);
         explotar = explotar + 1;
@@ -1313,25 +1236,17 @@ function empezar_boton(){
         clicks = 0
         empezar_boton()
         if (explotar >= 3){
-
-            borrarbomba();
-                         
+            borrarbomba();              
         }
-
     }else if(clicks == desactivar_boton){
-
         setTimeout(() =>{if(ronda_mala == false){
-
             bomba_terminada ++;
             correcto.innerText = bomba_terminada + " modulos desactivados de 5";
             se_desactivo()
             boton_bomba.style.backgroundColor = "#b0abab";
             boton_bomba.addEventListener("click", function botondebomba(){
-
-                clicks = 0;
-                
+                clicks = 0;    
             }, true);
-
         }}, 1500);     
     }
 }
@@ -1374,25 +1289,19 @@ function empezar_cables(){
     dibujo_cable2.style.backgroundColor = "#b0abab";
     dibujo_cable3.style.backgroundColor = "#b0abab";
     dibujo_cable4.style.backgroundColor = "#b0abab";
-
 }
 
 function empezar_numeros(){
 
     if (desactivar_numeros == respuesta.join("")){
-
         bomba_terminada ++;
         correcto.innerText = bomba_terminada + " modulos desactivados de 5";
         se_desactivo()
         document.getElementById("numyletsub").remove()
-
     }else{
-
         explotar = explotar + 1;
         incorrecto.innerText = explotar + " errores de 3";
-
         if (explotar >= 3){
-
             borrarbomba();  
         }
     } 
@@ -1419,16 +1328,11 @@ function empezar_lineas(){
         dibujo_bomba.appendChild(lineas_contenedor);
 
         document.getElementById("lineassub").remove()
-
     }else{
-
         explotar = explotar + 1;
         incorrecto.innerText = explotar + " errores de 3";
-
         if (explotar >= 3){
-
-            borrarbomba();
-                
+            borrarbomba();    
         }
     }
 }
@@ -1444,7 +1348,6 @@ function empezar_colores(){
         dibujo_numycol.innerHTML =`
     
             <div id="combinacion">${combinacion_numeros}</div>
-
             <button id="rojo" style="background-color: #b0abab;"></button>
             <button id="amarillo" style="background-color: #b0abab;"></button>
             <button id="azul" style="background-color: #b0abab;"></button>
@@ -1455,22 +1358,18 @@ function empezar_colores(){
         dibujo_bomba.appendChild(dibujo_numycol);
 
     }else{
-        
         explotar = explotar + 1;
         incorrecto.innerText = explotar + " errores de 3";
         combinacion_colores = [];
  
         if (explotar >= 3){
-
             borrarbomba();
         }
     }
 }
 
 function se_desactivo(){
-
     if (bomba_terminada == 5){
-
         borrarbomba();
     }
 }
@@ -1496,13 +1395,11 @@ function bomba_desactivada(){
     sessionStorage.setItem("Veces que se hizo el minijuego de la bomba: ", repeticion);
     sessionStorage.setItem("Errores de la bomba: ", explotar);
     console.log(explotar)
-
 }
-entrada_hab3 = true;
+
 function volverHabitacion(){
 
     botoncito.remove();
-
 
     main.style.background = "#1F1838 url('imagenes/fondo8.png') no-repeat center center";
 
@@ -1513,16 +1410,13 @@ function volverHabitacion(){
     botoncito1.id = "hab_1";
 
     botoncito1.addEventListener("click", function hab1(){
-
         habitacion1();
         botoncito1.remove();
         botoncito2.remove();
         botoncito3.remove();
-
     }); 
 
     main.appendChild(botoncito1);
-
 
     botoncito2 = document.createElement("button");
 
@@ -1531,25 +1425,20 @@ function volverHabitacion(){
     botoncito2.id = "hab_2";
 
     botoncito2.addEventListener("click", function hab2(){
-
         if(entrada_hab2 == true){
             habitacion2();
             botoncito1.remove();
             botoncito2.remove();
             botoncito3.remove();
         }else{
-
             let texto = document.createElement("p");
             texto.innerText = "No tiene permitido entrar a esa habitacion"
             main.appendChild(texto);
-
             setTimeout(() => {texto.remove()}, 2500);
         }
-
     }); 
 
     main.appendChild(botoncito2);
-
 
     botoncito3 = document.createElement("button");
 
@@ -1558,25 +1447,20 @@ function volverHabitacion(){
     botoncito3.id = "hab_3";
 
     botoncito3.addEventListener("click", function hab3(){
-
         if(entrada_hab3 == true){
             habitacion3();
             botoncito1.remove();
             botoncito2.remove();
             botoncito3.remove();
         }else{
-
             let texto = document.createElement("p");
             texto.innerText = "No tiene permitido entrar a esa habitacion"
             main.appendChild(texto);
 
             setTimeout(() => {texto.remove()}, 2500);
         }
-
     }); 
-
     main.appendChild(botoncito3);
-
 }
 
 
@@ -1613,14 +1497,11 @@ function habitacion2(){
     typingEffect(t1inst, 65)
 
     setTimeout(() =>{
-
         t2inst.style.visibility = "visible";
         typingEffect(t2inst, 65)
-
     }, 2000);
 
     setTimeout(() =>{
-
         t3inst.style.visibility = "visible";
         typingEffect(t3inst, 65)
         bh2.style.visibility = "visible";
@@ -1665,21 +1546,18 @@ function autitojuego(){
     borracanvas()
 
     if (autitox < obstaculox + obstaculow && autitox + autitow > obstaculox && autitoy < obstaculoy + obstaculoh && autitoy + autitoh > obstaculoy) {
-        
         crearObstaculo()
         crearObstaculo2()
         gameOver++
         n++
     }
     if (autitox < obstaculo2x + obstaculo2w && autitox + autitow > obstaculo2x && autitoy < obstaculo2y + obstaculo2h && autitoy + autitoh > obstaculo2y) {
-        
         crearObstaculo()
         crearObstaculo2()
         n++
         gameOver++
     }
     if(metay >= 140){
-
         crearObstaculo()
         crearObstaculo2()
         crearMeta();
@@ -1687,7 +1565,6 @@ function autitojuego(){
         n++
     }
     if (autitox < metax + 10 && autitox + autitow > metax && autitoy < metay + 10 && autitoy + autitoh > metay) {
-        
         crearMeta();
         crearObstaculo();
         crearObstaculo2()
@@ -1695,7 +1572,6 @@ function autitojuego(){
         win++
         n++
     }
-
 
     //meta
     ctx.fillStyle= "red";
@@ -1720,12 +1596,10 @@ function autitojuego(){
     puntosEnContra.innerText = "Puntos en contra " + gameOver;
 
     if (win >= 10){
-
         termino_de_juego();
     }
 
     if(gameOver >= 5){
-        
         gameOver = 0;
         win = 0;
         n = 1;
@@ -1740,30 +1614,22 @@ function borracanvas(){
     let y = 0;
 
     for (let i= 0; i < 15; i++){
-
         if (i%2 === 0) {
-
             x = 0;
             for (let i= 0; i < 31; i++) {
 
                 if (i%2 === 0) {
-
-                ctx.fillStyle= "lightgrey";
-                ctx.fillRect(x, y, 10, 10);
-
-                x += 20;
+                    ctx.fillStyle= "lightgrey";
+                    ctx.fillRect(x, y, 10, 10);
+                    x += 20;
                 } 
             } 
         }else{
-
             x = 10;
             for (let i= 0; i < 31; i++) {
-
                 if (i%2 != 0) {
-                
                     ctx.fillStyle= "lightgrey";
                     ctx.fillRect(x, y, 10, 10);
-
                     x += 20;
                 } 
             }
@@ -1786,7 +1652,6 @@ function crearObstaculo(){
     obstaculow = 20;
 
     if(metax < obstaculox + obstaculow && metax + 10 > obstaculox && metay < obstaculoy + obstaculoh && metay + 10 > obstaculoy ){
-
         obstaculox = Math.floor(Math.random() * 29) * 10
         obstaculoy = 0;
         obstaculoh = 30;
@@ -1804,7 +1669,6 @@ function crearObstaculo2(){
         obstaculo2w = 20;
 
         if(metax < obstaculo2x + obstaculo2w && metax + 10 > obstaculo2x && metay < obstaculo2y + obstaculo2h && metay + 10 > obstaculo2y ){
-
             obstaculo2x = Math.floor(Math.random() * 29) * 10
             obstaculo2y = 0;
             obstaculo2h = 30;
@@ -1812,7 +1676,6 @@ function crearObstaculo2(){
             console.log("Se cambio")
         }
         if(obstaculox < obstaculo2x + obstaculo2w && obstaculox + 30 > obstaculo2x && obstaculoy < obstaculo2y + obstaculo2h && obstaculoy + 20 > obstaculo2y ){
-
             obstaculo2x = Math.floor(Math.random() * 29) * 10
             obstaculo2y = 0;
             obstaculo2h = 30;
@@ -1825,12 +1688,10 @@ function crearObstaculo2(){
 function changeDirection(tecla) {
     
     if(tecla.keyCode == 37){
-        
         moverx = -4;
         movery = 0;
     }
     if(tecla.keyCode == 39){
-        
         moverx = 4;
         movery = 0;
     }
@@ -1889,7 +1750,6 @@ function termino_de_juego(){
 
     let botonvolverr = document.getElementById("botonvolverr");
     botonvolverr.addEventListener("click", function volver(){
-
         volverHabitacion();
         termino_auto.remove();
     });
@@ -1922,10 +1782,8 @@ function habitacion3(){
         botoncito.id = "compu";
 
         botoncito.addEventListener("click", function td(){
-
             tienda();
             main.remove();
-
         }); 
 
         main.appendChild(botoncito);
@@ -2209,7 +2067,6 @@ function tienda(){
                 push = false;
                 return
             }else{
-
                 push = true;
             }
         }
@@ -2396,4 +2253,3 @@ function finalJuego(){
 
     localStorage.setItem("Estadísticas", enJSON);;
 }
-
